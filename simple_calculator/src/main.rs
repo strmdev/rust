@@ -35,11 +35,11 @@ impl<'a> Calculator<'a> {
         self.operator = operator;
 
         let converted_number_1: f32 = self.number_1.trim()
-                                          .parse::<f32>()
-                                          .unwrap();
+                                                   .parse::<f32>()
+                                                   .unwrap();
         let converted_number_2: f32 = self.number_2.trim()
-                                          .parse::<f32>()
-                                          .unwrap();
+                                                   .parse::<f32>()
+                                                   .unwrap();
     
         match self.operator.trim() {
             "+" => result = converted_number_1 + converted_number_2,
@@ -55,6 +55,7 @@ impl<'a> Calculator<'a> {
 
 fn main() {
     let mut calculator = Calculator::new();
+    
     let number_1: String = calculator.read_data("Elso szam:", "Hiba tortent az elso szam beolvasasa soran!");
     let number_2: String = calculator.read_data("Masodik szam:", "Hiba tortent a masodik szam beolvasasa soran!");
     let operator: String = calculator.read_data("Operator ('+', '-', '*', '/'):", "Hiba tortent az operator beolvasasa soran!");
