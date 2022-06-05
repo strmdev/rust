@@ -1,4 +1,4 @@
 .DS_Store
 simple_calculator/target
-first_tui_app/target
-first_tui_app/Cargo.lock
+population/target
+population/Cargo.lock
