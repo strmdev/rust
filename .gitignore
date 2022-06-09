@@ -2,3 +2,5 @@
 simple_calculator/target
 population/target
 population/Cargo.lock
+sort/target
+sort/Cargo.lock
