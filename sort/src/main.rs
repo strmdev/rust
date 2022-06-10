@@ -44,7 +44,8 @@ use tui::{
         BarChart,
         List,
         ListItem,
-        ListState
+        ListState,
+        Paragraph
     },
     text::Span,
     Terminal,
@@ -104,7 +105,13 @@ impl<'a> AlgorithmNameList<'a> {
         AlgorithmNameList {
             items: StatefulList::with_items(vec![
                 "Egyszeru cseres rendezes",
-                "Minimum kivalasztasos rendezes"
+                "Minimum kivalasztasos rendezes",
+                "Buborekos rendezes",
+                "Javitott buborekos rendezes",
+                "Beilleszteses rendezes",
+                "Gnome rendezes",
+                "------------------------------",
+                r#"Kilepes ("q")"#
             ])
         }
     }
@@ -115,7 +122,7 @@ fn fill_vector_with_random_numbers(numbers: &mut Vec<u64>) {
 
     for _index in 0..VECTOR_SIZE {
         _random_number = rand::thread_rng()
-                              .gen_range(1..1000);
+                              .gen_range(1..10000);
         numbers.push(_random_number);
     }
 }
@@ -129,22 +136,31 @@ fn swap(numbers: &mut Vec<u64>, i_index: usize, j_index: usize) {
 fn simple_sort<B: Backend>(numbers: &mut Vec<u64>, terminal: &mut Terminal<B>) {
     fill_vector_with_random_numbers(numbers);
 
+    let current_time = time::Instant::now();
+
     for i_index in 0..numbers.len() - 1 {
         for j_index in i_index + 1..numbers.len() {
             if numbers[i_index] > numbers[j_index] {
                 swap(numbers, i_index, j_index);
-                terminal.draw(|frame| chart_screen(frame, numbers, "Egyszeru cseres rendezes")).ok();
-                thread::sleep(time::Duration::from_millis(50));
+                terminal.draw(|frame| chart_screen(frame, numbers, "Egyszeru cseres rendezes", String::from(""))).ok();
             }
         }
     }
     
+    let elapsed_time = current_time.elapsed().as_millis();
+    let elapsed_time = String::from("A rendezési algoritmus végrehajtási ideje: ") + &elapsed_time.to_string() + &String::from(" ms");
+
+    terminal.draw(|frame| chart_screen(frame, numbers, "Egyszeru cseres rendezes", elapsed_time)).ok();
+    thread::sleep(time::Duration::from_millis(5000));
+
     numbers.clear();
-    terminal.draw(|frame| chart_screen(frame, numbers, "")).ok();
+    terminal.draw(|frame| chart_screen(frame, numbers, "", String::from(""))).ok();
 }
 
 fn min_sort<B: Backend>(numbers: &mut Vec<u64>, terminal: &mut Terminal<B>) {
     fill_vector_with_random_numbers(numbers);
+
+    let current_time = time::Instant::now();
 
     let mut _min_value_index: usize  = 0;
 
@@ -156,12 +172,129 @@ fn min_sort<B: Backend>(numbers: &mut Vec<u64>, terminal: &mut Terminal<B>) {
             }
         }
         swap(numbers, i_index, _min_value_index);
-        terminal.draw(|frame| chart_screen(frame, numbers, "Minimum kivalasztasos rendezes")).ok();
-        thread::sleep(time::Duration::from_millis(50));
+        terminal.draw(|frame| chart_screen(frame, numbers, "Minimum kivalasztasos rendezes", String::from(""))).ok();
     }
+
+    let elapsed_time = current_time.elapsed().as_millis();
+    let elapsed_time = String::from("A rendezési algoritmus végrehajtási ideje: ") + &elapsed_time.to_string() + &String::from(" ms");
+
+    terminal.draw(|frame| chart_screen(frame, numbers, "Minimum kivalasztasos rendezes", elapsed_time)).ok();
+    thread::sleep(time::Duration::from_millis(5000));
     
     numbers.clear();
-    terminal.draw(|frame| chart_screen(frame, numbers, "")).ok();
+    terminal.draw(|frame| chart_screen(frame, numbers, "", String::from(""))).ok();
+}
+
+fn bubble_sort<B: Backend>(numbers: &mut Vec<u64>, terminal: &mut Terminal<B>) {
+    fill_vector_with_random_numbers(numbers);
+
+    let current_time = time::Instant::now();
+
+    for i_index in (1..numbers.len()).rev() {
+        for j_index in 0..i_index {
+            if numbers[j_index] > numbers[j_index + 1] {
+                swap(numbers, j_index, j_index + 1);
+                terminal.draw(|frame| chart_screen(frame, numbers, "Buborekos rendezes", String::from(""))).ok();
+            }
+        }
+    }
+
+    let elapsed_time = current_time.elapsed().as_millis();
+    let elapsed_time = String::from("A rendezési algoritmus végrehajtási ideje: ") + &elapsed_time.to_string() + &String::from(" ms");
+
+    terminal.draw(|frame| chart_screen(frame, numbers, "Buborekos rendezes", elapsed_time)).ok();
+    thread::sleep(time::Duration::from_millis(5000));
+
+    numbers.clear();
+    terminal.draw(|frame| chart_screen(frame, numbers, "", String::from(""))).ok();
+}
+
+fn opt_bubble_sort<B: Backend>(numbers: &mut Vec<u64>, terminal: &mut Terminal<B>) {
+    fill_vector_with_random_numbers(numbers);
+
+    let current_time = time::Instant::now();
+    
+    let mut _last_swap_index = 0;
+    let mut i_index = numbers.len() - 1;
+    while i_index >= 1 {
+        _last_swap_index = 0;
+        for j_index in 0..i_index {
+            if numbers[j_index] > numbers[j_index + 1] {
+                swap(numbers, j_index, j_index + 1);
+                _last_swap_index = j_index;
+                terminal.draw(|frame| chart_screen(frame, numbers, "Javitott buborekos rendezes", String::from(""))).ok();
+            }
+        }
+        i_index = _last_swap_index;
+    }
+
+    let elapsed_time = current_time.elapsed().as_millis();
+    let elapsed_time = String::from("A rendezési algoritmus végrehajtási ideje: ") + &elapsed_time.to_string() + &String::from(" ms");
+
+    terminal.draw(|frame| chart_screen(frame, numbers, "Javitott buborekos rendezes", elapsed_time)).ok();
+    thread::sleep(time::Duration::from_millis(5000));
+
+    numbers.clear();
+    terminal.draw(|frame| chart_screen(frame, numbers, "", String::from(""))).ok();
+}
+
+fn insert_sort<B: Backend>(numbers: &mut Vec<u64>, terminal: &mut Terminal<B>) {
+    fill_vector_with_random_numbers(numbers);
+
+    let current_time = time::Instant::now();
+
+    for i_index in 1..numbers.len() {
+        let mut j_index = i_index - 1;
+        while j_index >= 0 && numbers[j_index] > numbers[j_index + 1] {
+            swap(numbers, j_index, j_index + 1);
+            terminal.draw(|frame| chart_screen(frame, numbers, "Beilleszteses rendezes", String::from(""))).ok();
+
+            if j_index == 0 {
+                break;
+            } else {
+                j_index -= 1;
+            }
+        }
+    }
+
+    let elapsed_time = current_time.elapsed().as_millis();
+    let elapsed_time = String::from("A rendezési algoritmus végrehajtási ideje: ") + &elapsed_time.to_string() + &String::from(" ms");
+
+    terminal.draw(|frame| chart_screen(frame, numbers, "Beilleszteses rendezes", elapsed_time)).ok();
+    thread::sleep(time::Duration::from_millis(5000));
+
+    numbers.clear();
+    terminal.draw(|frame| chart_screen(frame, numbers, "", String::from(""))).ok();
+}
+
+fn gnome_sort<B: Backend>(numbers: &mut Vec<u64>, terminal: &mut Terminal<B>) {
+    fill_vector_with_random_numbers(numbers);
+
+    let current_time = time::Instant::now();
+
+    let mut index = 0;
+    while index < numbers.len() {
+        if index == 0 {
+            index += 1;
+        }
+
+        if numbers[index] >= numbers[index - 1] {
+            index += 1;
+        } else {
+            swap(numbers, index, index - 1);
+            terminal.draw(|frame| chart_screen(frame, numbers, "Gnome rendezes", String::from(""))).ok();
+            index -= 1;
+        }
+    }
+
+    let elapsed_time = current_time.elapsed().as_millis();
+    let elapsed_time = String::from("A rendezési algoritmus végrehajtási ideje: ") + &elapsed_time.to_string() + &String::from(" ms");
+
+    terminal.draw(|frame| chart_screen(frame, numbers, "Gnome rendezes", elapsed_time)).ok();
+    thread::sleep(time::Duration::from_millis(5000));
+
+    numbers.clear();
+    terminal.draw(|frame| chart_screen(frame, numbers, "", String::from(""))).ok();
 }
 
 fn convert_vector_to_tuple_vector(numbers: &Vec<u64>) -> Vec<(&str, u64)> {
@@ -174,12 +307,13 @@ fn convert_vector_to_tuple_vector(numbers: &Vec<u64>) -> Vec<(&str, u64)> {
     numbers_with_tuple
 }
 
-fn chart_screen<B: Backend>(frame: &mut Frame<B>, numbers: &Vec<u64>, title: &str) {
+fn chart_screen<B: Backend>(frame: &mut Frame<B>, numbers: &Vec<u64>, title: &str, label_elapsed_time: String) {
     let chart_layout = Layout::default()
                               .direction(Direction::Vertical)
                               .constraints(
                                   [
-                                      Constraint::Percentage(100)
+                                      Constraint::Percentage(5),
+                                      Constraint::Percentage(95)
                                   ]
                                   .as_ref(),
                               )
@@ -195,17 +329,33 @@ fn chart_screen<B: Backend>(frame: &mut Frame<B>, numbers: &Vec<u64>, title: &st
                            .style(Style::default()
                                         .fg(Color::LightGreen));
 
+    
     let tuple_vector: Vec<(&str, u64)> = convert_vector_to_tuple_vector(numbers);
     let sort_chart: BarChart = BarChart::default()
                                         .block(sort_block)
                                         .data(&tuple_vector)
                                         .bar_width(5)
                                         .bar_style(Style::default()
-                                                         .fg(Color::Red))
+                                                         .fg(Color::LightGreen))
                                         .value_style(Style::default()
-                                                           .fg(Color::Cyan)
+                                                           .fg(Color::White)
                                                            .add_modifier(Modifier::BOLD));
-    frame.render_widget(sort_chart, chart_layout[0]);
+    frame.render_widget(sort_chart, chart_layout[1]);
+
+    let time_block = Block::default()
+                           .title(Span::styled("Vegrehajtasi-ido eredmenyablak", Style::default()
+                                                                                       .fg(Color::Cyan)
+                                                                                       .add_modifier(Modifier::BOLD)))
+                            .borders(Borders::ALL)
+                            .border_type(BorderType::Rounded)
+                            .style(Style::default()
+                                         .fg(Color::LightGreen));
+
+    let time_span  = Paragraph::new(Span::from(label_elapsed_time))
+                               .style(Style::default()
+                                            .fg(Color::LightRed))
+                               .block(time_block); 
+    frame.render_widget(time_span, chart_layout[0]);
 }
 
 fn main_screen<B: Backend>(frame: &mut Frame<B>, list_of_sort_algorithm_names: &mut AlgorithmNameList) {
@@ -218,8 +368,8 @@ fn main_screen<B: Backend>(frame: &mut Frame<B>, list_of_sort_algorithm_names: &
                                                            .items
                                                            .iter()
                                                            .map(|text| { ListItem::new(&**text).style(Style::default()
-                                                                                                            .fg(Color::Black)
-                                                                                                            .bg(Color::White))
+                                                                                                            .fg(Color::White)
+                                                                                                            .bg(Color::DarkGray))
                                                                        }
                                                            )
                                                            .collect();
@@ -227,18 +377,26 @@ fn main_screen<B: Backend>(frame: &mut Frame<B>, list_of_sort_algorithm_names: &
     let list_block = List::new(items)
                           .block(Block::default()
                                        .borders(Borders::ALL)
-                                       .title("Rendezesi algoritmusok"))
+                                       .border_type(BorderType::Rounded)
+                                       .border_style(Style::default()
+                                                           .fg(Color::Green))
+                                       .title(Span::styled("Rendezesi algoritmusok", Style::default()
+                                                                                           .fg(Color::Cyan)
+                                                                                           .add_modifier(Modifier::BOLD))))
                           .highlight_style(Style::default()
-                                                 .bg(Color::LightGreen)
+                                                 .bg(Color::Cyan)
+                                                 .fg(Color::Black)
                                                  .add_modifier(Modifier::BOLD))
                           .highlight_symbol(">> ");
+    
     frame.render_stateful_widget(list_block, main_layout[0], &mut list_of_sort_algorithm_names.items.state);
 }
 
 fn run_app<B: Backend>(terminal: &mut Terminal<B>, numbers: &mut Vec<u64>) -> io::Result<()> { 
     let mut list_of_sort_algorithm_names = AlgorithmNameList::new();
+    list_of_sort_algorithm_names.items.state.select(Some(0));  
 
-    loop {       
+    loop {     
         terminal.draw(|frame| main_screen(frame, &mut list_of_sort_algorithm_names))?;
 
         if let Event::Key(key) = event::read()? {
@@ -249,6 +407,11 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, numbers: &mut Vec<u64>) -> io
                 KeyCode::Enter     => match list_of_sort_algorithm_names.items.state.selected() {
                     Some(0) => simple_sort(numbers, terminal),
                     Some(1) => min_sort(numbers, terminal),
+                    Some(2) => bubble_sort(numbers, terminal),
+                    Some(3) => opt_bubble_sort(numbers, terminal),
+                    Some(4) => insert_sort(numbers, terminal),
+                    Some(5) => gnome_sort(numbers, terminal),
+                    Some(7) => return Ok(()),
                     _ => {}
                 }
                 _ => {}
