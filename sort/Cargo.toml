@@ -7,3 +7,7 @@ edition = "2021"
 tui = "0.18"
 crossterm = "0.23"
 rand = "0.8"
+
+[lib]
+name = "tui_sort_app"
+path = "src/lib.rs"
