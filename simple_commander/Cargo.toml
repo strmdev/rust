@@ -8,3 +8,10 @@ edition = "2021"
 [dependencies]
 tui = "0.18"
 crossterm = "0.23"
+walkdir = "2"
+chrono = "0.4"
+open = "3.0.1"
+
+[lib]
+name = "simple_commander_lib"
+path = "src/lib.rs"
