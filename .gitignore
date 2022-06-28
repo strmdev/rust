@@ -4,5 +4,5 @@ population/target
 population/Cargo.lock
 sort/target
 sort/Cargo.lock
-/simple_commander/target
-/simple_commander/Cargo.lock
+/file_browser/target
+/file_browser/Cargo.lock
