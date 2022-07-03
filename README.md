@@ -50,6 +50,8 @@ Tovabbi celkituzeseket a projekttel kapcsolatban lsd. a "Task lista" szekcioban.
 
 ### 2.2 Populaciobiologiai Szimulacios Modell 🦊 🐰
 
+![File Browser](images/populacio.png)
+
 #### 2.2.1 Altalanosan a mini projektrol
 
 Egy olyan TUI (Terminal User Interface) alkalmazas letrehozasa volt a cel, amely kezdetben egy leegyszerusitett populaciobiologiai szimulacios modellt valosit meg:
@@ -75,7 +77,10 @@ Tovabbi celkituzeseket a projekttel kapcsolatban lsd. a "Task lista" szekcioban!
 - [ ] Jarvany megjelenesenek bevezetese
 - [ ] OOP megvalositas es refaktoralas
 
-### 2.3 Rendezesi algoritmusok
+### 2.3 Rendezesi algoritmusok 📊
+
+![File Browser](images/rendalg_lista.png)
+![File Browser](images/rendalg.png)
 
 #### 2.3.1 Altalanosan a mini projektrol
 
@@ -88,4 +93,13 @@ Egy olyan TUI (Terminal User Interface) alkalmazas megvalositasa volt a cel, ame
 - Gnome rendezes
 
 > Felhasznalt forrasok:
-> - Szlávi Péter - Zsakó László: Módszeres programozás: Programozási tételek, ELTE Informatikai Kar. 
+> - Szlávi Péter - Zsakó László: Módszeres programozás: Programozási tételek, ELTE Informatikai Kar.
+
+Tovabbi celkituzeseket a projekttel kapcsolatban lsd. a "Task lista" szekcioban!
+
+#### 2.3.2 Task lista
+
+- [x] Rendezesi lista megvalositasa
+- [x] Rendezesi algoritmusok bevezetese
+- [x] Vizualis megjelenites.
+- [ ] OOP megvalositas es refaktoralas.  
