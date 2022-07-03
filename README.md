@@ -45,8 +45,8 @@ Tovabbi celkituzeseket a projekttel kapcsolatban lsd. a "Task lista" szekcioban.
   - [x] Symlink?
 - [ ] Kereses a mappakban
 - [ ] Szoveg fajlok tartalmi elonezetenek mutatasa
-- [ ] Fajlok es mappak masolasa
-- [ ] OOP megvalositas es refaktoralas.
+- [ ] OOP megvalositas es refaktoralas
+- [ ] Tesztek bevezetese.
 
 ### 2.2 Populaciobiologiai Szimulacios Modell 🦊 🐰
 
@@ -76,6 +76,7 @@ Tovabbi celkituzeseket a projekttel kapcsolatban lsd. a "Task lista" szekcioban!
 - [ ] A nyul (N) megeszi a fuvet (F)
 - [ ] Jarvany megjelenesenek bevezetese
 - [ ] OOP megvalositas es refaktoralas
+- [ ] Tesztek bevezetese.
 
 ### 2.3 Rendezesi algoritmusok 📊
 
@@ -92,7 +93,7 @@ Egy olyan TUI (Terminal User Interface) alkalmazas megvalositasa volt a cel, ame
 - Beilleszteses rendezes
 - Gnome rendezes
 
-> Felhasznalt forrasok:
+> Felhasznalt irodalom:
 > - Szlávi Péter - Zsakó László: Módszeres programozás: Programozási tételek, ELTE Informatikai Kar.
 
 Tovabbi celkituzeseket a projekttel kapcsolatban lsd. a "Task lista" szekcioban!
@@ -102,4 +103,5 @@ Tovabbi celkituzeseket a projekttel kapcsolatban lsd. a "Task lista" szekcioban!
 - [x] Rendezesi lista megvalositasa
 - [x] Rendezesi algoritmusok bevezetese
 - [x] Vizualis megjelenites.
-- [ ] OOP megvalositas es refaktoralas.  
+- [ ] OOP megvalositas es refaktoralas
+- [ ] Tesztek bevezetese  
