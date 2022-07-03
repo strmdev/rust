@@ -52,7 +52,7 @@ Tovabbi celkituzeseket a projekttel kapcsolatban lsd. a "Task lista" szekcioban.
 
 #### 2.2.1 Altalanosan a mini projektrol
 
-Egy olyan TUI (Terminal User Interface) alkalmazas letrehozasa volt a cel, amely egy leegyszerusitett populaciobiologiai szimulacios modellt valosit meg:
+Egy olyan TUI (Terminal User Interface) alkalmazas letrehozasa volt a cel, amely kezdetben egy leegyszerusitett populaciobiologiai szimulacios modellt valosit meg:
 - Egy kepzeletbeli reten (szimulacios ter) vannak rokak (R) es nyulak (N):
   - ha a roka valamely szomszedsagaban talal egy nyulat, akkor oda ugrik es megeszi
   - ha a roka elpusztul, akkor a helyere fu (F) fog noni
@@ -73,4 +73,19 @@ Tovabbi celkituzeseket a projekttel kapcsolatban lsd. a "Task lista" szekcioban!
 - [ ] Szimulacio "vegenek" kezelese
 - [ ] A nyul (N) megeszi a fuvet (F)
 - [ ] Jarvany megjelenesenek bevezetese
-- [ ] OOP megvalositas es refaktoralas   
+- [ ] OOP megvalositas es refaktoralas
+
+### 2.3 Rendezesi algoritmusok
+
+#### 2.3.1 Altalanosan a mini projektrol
+
+Egy olyan TUI (Terminal User Interface) alkalmazas megvalositasa volt a cel, amely kezdetben nehany alapveto rendezesi algoritmus mukodeset mutatna be. Ezek a kovetkezok:
+- Egyszeru cseres rendezes
+- Minimumkivalasztasos rendezes
+- Buborekos rendezes
+- Javitott buborekos rendezes
+- Beilleszteses rendezes
+- Gnome rendezes
+
+> Felhasznalt forrasok:
+> - Szlávi Péter - Zsakó László: Módszeres programozás: Programozási tételek, ELTE Informatikai Kar. 
