@@ -45,3 +45,17 @@ Tovabbi celkituzeseket a projekttel kapcsolatban lsd. a "Task lista" szekcioban.
 - [ ] Kereses a mappakban
 - [ ] Szoveg fajlok tartalmi elonezetenek mutatasa
 - [ ] Fajlok es mappak masolasa
+
+### 2.2 Populaciobiologiai Szimulacios Modell 🦊 🐰
+
+#### 2.2.1 Altalanosan a mini projektrol
+
+Egy olyan TUI (Terminal User Interface) alkalmazas letrehozasa volt a cel, amely egy leegyszerusitett populaciobiologiai szimulacios modellt valosit meg:
+- Egy kepzeletbeli reten (szimulacios ter) vannak rokak (R) es nyulak (N):
+  - ha a roka valamely szomszedsagaban talal egy nyulat, akkor oda ugrik es megeszi
+  - ha a roka elpusztul, akkor a helyere fu (F) fog noni
+  - ha a nyulat nem a roka eszi meg, hanem elpusztul, akkor a helyere fu fog noni (F)
+- 3 fele chart van, amin keresztul az esemenyeket vizsgaljuk:
+  - az egyik a roka populacio szamanak valtozasat mutatja
+  - a masik a nyul populacio szamanak valtozasat mutatja
+  - a harmadik pedig a populacio teljes szamanak valtozasat mutatja
