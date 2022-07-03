@@ -24,6 +24,35 @@ Egy olyan TUI (Terminal User Interface) alkalmazas letrehozasa volt a cel, amely
 - a kivalasztott file vagy mappa helyere torteno "ugrasra"
 - alapveto hibalehetosegek kezelesere
 
+A megvalositas legfelso szintjen - kodreszlet:
+
+```rust
+// ...
+
+fn main() -> Result<(), Box<dyn Error>> {
+    enable_raw_mode()?;
+    let mut stdout = io::stdout(); 
+    execute!(stdout, EnterAlternateScreen)?;
+
+    let backend      = CrosstermBackend::new(stdout);
+    let mut terminal = Terminal::new(backend)?;
+ 
+    let file_browser_app_result = run_file_browser_app(&mut terminal);
+    
+    disable_raw_mode()?;
+    execute!(terminal.backend_mut(), LeaveAlternateScreen)?;
+    terminal.show_cursor()?;
+
+    if let Err(error_message) = file_browser_app_result {
+        eprintln!("Hiba tortent az alkalmazas futtatasa soran: {}", error_message)        
+    }
+
+    Ok(())
+}
+
+// ...
+```
+
 Tovabbi celkituzeseket a projekttel kapcsolatban lsd. a "Task lista" szekcioban.
 
 #### 2.1.2 Task lista
@@ -63,6 +92,40 @@ Egy olyan TUI (Terminal User Interface) alkalmazas letrehozasa volt a cel, amely
   - az egyik a roka populacio szamanak valtozasat mutatja
   - a masik a nyul populacio szamanak valtozasat mutatja
   - a harmadik pedig a populacio teljes szamanak valtozasat mutatja
+  
+A megvalositas legfelso szintjen - kodreszlet:
+```rust
+// ...
+
+fn main() -> Result<(), Box<dyn Error>> {
+    let fox_birth_probability: f64        = read_data("🦊 szuletesenek valoszinusege (0.0..1.0):", "Hiba tortent a beolvasas soran!");
+    let fox_mortality_probability: f64    = read_data("🦊 halalozasanak valoszinusege (0.0..1.0):", "Hiba tortent a beolvasas soran!");
+    let rabbit_mortality_probability: f64 = read_data("🐰 halalozasanak valoszinusege (0.0..1.0):", "Hiba tortent a beolvasas soran!");
+
+    enable_raw_mode()?;
+    let mut stdout = io::stdout();
+    execute!(stdout, EnterAlternateScreen)?;
+
+    let backend      = CrosstermBackend::new(stdout);
+    let mut terminal = Terminal::new(backend)?;
+    
+    let run_app_result = run_app(&mut terminal, fox_birth_probability, fox_mortality_probability, rabbit_mortality_probability);
+
+    disable_raw_mode()?;
+    execute!(terminal.backend_mut(), LeaveAlternateScreen)?;
+    terminal.show_cursor()?;
+
+    if let Err(error_message) = run_app_result {
+        println!("Hiba: {:?}", error_message)
+    } else {
+        println!("\nSzimulacio vege...");
+    }
+
+    Ok(())
+}
+
+// ...
+```
 
 Tovabbi celkituzeseket a projekttel kapcsolatban lsd. a "Task lista" szekcioban!
 
@@ -93,8 +156,35 @@ Egy olyan TUI (Terminal User Interface) alkalmazas megvalositasa volt a cel, ame
 - Beilleszteses rendezes
 - Gnome rendezes
 
-> Felhasznalt irodalom:
-> - Szlávi Péter - Zsakó László: Módszeres programozás: Programozási tételek, ELTE Informatikai Kar.
+A megvalositas legfelso szintjen - kodreszlet:
+
+```rust
+// ...
+
+fn main() -> Result<(), Box<dyn Error>> {
+    enable_raw_mode()?;
+    let mut stdout = io::stdout();
+    execute!(stdout, EnterAlternateScreen)?;
+
+    let backend      = CrosstermBackend::new(stdout);
+    let mut terminal = Terminal::new(backend)?;
+
+    let mut numbers: Vec<u64> = Vec::new();
+    let run_app_result = run_app(&mut terminal, &mut numbers);
+
+    disable_raw_mode()?;
+    execute!(terminal.backend_mut(), LeaveAlternateScreen)?;
+    terminal.show_cursor()?;
+
+    if let Err(error_message) = run_app_result {
+        println!("Hiba: {}", error_message)
+    }
+
+    Ok(())
+}
+
+// ...
+```
 
 Tovabbi celkituzeseket a projekttel kapcsolatban lsd. a "Task lista" szekcioban!
 
@@ -104,4 +194,9 @@ Tovabbi celkituzeseket a projekttel kapcsolatban lsd. a "Task lista" szekcioban!
 - [x] Rendezesi algoritmusok bevezetese
 - [x] Vizualis megjelenites.
 - [ ] OOP megvalositas es refaktoralas
-- [ ] Tesztek bevezetese  
+- [ ] Tesztek bevezetese
+
+
+
+> Felhasznalt irodalom:
+> - Szlávi Péter - Zsakó László: Módszeres programozás: Programozási tételek, ELTE Informatikai Kar.
