@@ -13,7 +13,8 @@ Az alabb felsorolt projektek celja, hogy a [Rust](https://www.rust-lang.org) pro
 
 ### 2.1 File Browser 📂
 
-![File Browser](images/file_browser.png) ![File Browser - Permission Denied](images/file_browser_error.png)
+![File Browser](images/file_browser.png)
+![File Browser - Permission Denied](images/file_browser_error.png)
 
 #### 2.1.1 Altalanosan a mini projektrol
 
@@ -45,6 +46,7 @@ Tovabbi celkituzeseket a projekttel kapcsolatban lsd. a "Task lista" szekcioban.
 - [ ] Kereses a mappakban
 - [ ] Szoveg fajlok tartalmi elonezetenek mutatasa
 - [ ] Fajlok es mappak masolasa
+- [ ] OOP megvalositas es refaktoralas.
 
 ### 2.2 Populaciobiologiai Szimulacios Modell 🦊 🐰
 
@@ -59,3 +61,16 @@ Egy olyan TUI (Terminal User Interface) alkalmazas letrehozasa volt a cel, amely
   - az egyik a roka populacio szamanak valtozasat mutatja
   - a masik a nyul populacio szamanak valtozasat mutatja
   - a harmadik pedig a populacio teljes szamanak valtozasat mutatja
+
+Tovabbi celkituzeseket a projekttel kapcsolatban lsd. a "Task lista" szekcioban!
+
+#### 2.2.2 Task lista
+
+- [x] Szuletes es halalozas bevezetese
+- [x] Rokak es nyulak elhelyezese a szimulacios terben
+- [x] Zsakmanyszerzes kezelese
+- [x] Chartok hozzaadasa
+- [ ] Szimulacio "vegenek" kezelese
+- [ ] A nyul (N) megeszi a fuvet (F)
+- [ ] Jarvany megjelenesenek bevezetese
+- [ ] OOP megvalositas es refaktoralas   
