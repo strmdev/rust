@@ -13,6 +13,8 @@ Az alabb felsorolt projektek celja, hogy a [Rust](https://www.rust-lang.org) pro
 
 ### 2.1 File Browser 📂
 
+![File Browser](images/file_browser.png) ![File Browser - Permission Denied](images/file_browser_error.png)
+
 #### 2.1.1 Altalanosan a mini projektrol
 
 Egy olyan TUI (Terminal User Interface) alkalmazas letrehozasa volt a cel, amely kezdetben:
@@ -42,4 +44,4 @@ Tovabbi celkituzeseket a projekttel kapcsolatban lsd. a "Task lista" szekcioban.
   - [x] Symlink?
 - [ ] Kereses a mappakban
 - [ ] Szoveg fajlok tartalmi elonezetenek mutatasa
-- [ ] Fajlok es mappak masolasa        
+- [ ] Fajlok es mappak masolasa
