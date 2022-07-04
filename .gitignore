@@ -1,7 +1,4 @@
 .DS_Store
 population/target
-population/Cargo.lock
 sort/target
-sort/Cargo.lock
-/file_browser/target
-/file_browser/Cargo.lock
+file_browser/target

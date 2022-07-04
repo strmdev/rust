@@ -1,15 +1,13 @@
 pub mod sort_algorithms {
 
     use std::{ time, thread };
-    use tui::{
-        widgets::{ Block, BarChart, BorderType, Borders, Paragraph },
-        backend::Backend,
-        layout::{ Layout, Direction, Constraint, Alignment },
-        style::{ Style, Color, Modifier },
-        text::Span,
-        Frame,
-        Terminal
-    };
+    use tui::{ widgets::{ Block, BarChart, BorderType, Borders, Paragraph },
+               backend::Backend,
+               layout::{ Layout, Direction, Constraint, Alignment },
+               style::{ Style, Color, Modifier },
+               text::Span,
+               Frame,
+               Terminal };
     use rand::Rng;
 
     const MAX_VECTOR_SIZE: i32 = 39;

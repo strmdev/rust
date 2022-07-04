@@ -1,20 +1,17 @@
 use std::{ error::Error, io };
-use crossterm::{
-    execute,
-    terminal::{ enable_raw_mode, disable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen },
-    event::{ self, Event, KeyCode }
-};
-use tui::{
-    backend::{ Backend, CrosstermBackend },
-    layout::{ Layout, Direction, Constraint },
-    style::{ Color, Style, Modifier },
-    widgets::{ Block, Borders, BorderType, List, ListItem },
-    text::Span,
-    Terminal,
-    Frame
-};
-use tui_sort_app::sort_algorithms;
-use tui_sort_app::sort_algorithms::list_type;
+use crossterm::{ execute,
+                 terminal::{ enable_raw_mode, disable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen },
+                 event::{ self, Event, KeyCode }
+               };
+use tui::{ backend::{ Backend, CrosstermBackend },
+           layout::{ Layout, Direction, Constraint },
+           style::{ Color, Style, Modifier },
+           widgets::{ Block, Borders, BorderType, List, ListItem },
+           text::Span,
+           Terminal,
+           Frame
+         };
+use tui_sort_app::sort_algorithms::{ self, list_type };
 
 struct AlgorithmNameList<'a> {
     items: list_type::StatefulList<&'a str>
@@ -31,7 +28,7 @@ impl<'a> AlgorithmNameList<'a> {
                 "Beilleszteses rendezes",
                 "Gnome rendezes",
                 "------------------------------",
-                r#"Kilepes ("q")"#
+                "Kilepes: <ESC>"
             ])
         }
     }
@@ -71,7 +68,7 @@ fn main_screen<B: Backend>(frame: &mut Frame<B>, list_of_sort_algorithm_names: &
     frame.render_stateful_widget(list_block, main_layout[0], &mut list_of_sort_algorithm_names.items.state);
 }
 
-fn run_app<B: Backend>(terminal: &mut Terminal<B>, numbers: &mut Vec<u64>) -> io::Result<()> { 
+fn run_sort_app<B: Backend>(terminal: &mut Terminal<B>, numbers: &mut Vec<u64>) -> io::Result<()> { 
     let mut list_of_sort_algorithm_names = AlgorithmNameList::new();
     list_of_sort_algorithm_names.items.state.select(Some(0));  
 
@@ -80,7 +77,7 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, numbers: &mut Vec<u64>) -> io
 
         if let Event::Key(key) = event::read()? {
             match key.code {
-                KeyCode::Char('q') => return Ok(()),
+                KeyCode::Esc       => return Ok(()),
                 KeyCode::Down      => list_of_sort_algorithm_names.items.next(),
                 KeyCode::Up        => list_of_sort_algorithm_names.items.previous(),
                 KeyCode::Enter     => match list_of_sort_algorithm_names.items.state.selected() {
@@ -108,14 +105,14 @@ fn main() -> Result<(), Box<dyn Error>> {
     let mut terminal = Terminal::new(backend)?;
 
     let mut numbers: Vec<u64> = Vec::new();
-    let run_app_result = run_app(&mut terminal, &mut numbers);
+    let sort_app_result = run_sort_app(&mut terminal, &mut numbers);
 
     disable_raw_mode()?;
     execute!(terminal.backend_mut(), LeaveAlternateScreen)?;
     terminal.show_cursor()?;
 
-    if let Err(error_message) = run_app_result {
-        println!("Hiba: {}", error_message)
+    if let Err(error_message) = sort_app_result {
+        eprintln!("Hiba tortent az alkalmazas futtatasa soran: {}", error_message)
     }
 
     Ok(())

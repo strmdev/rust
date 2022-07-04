@@ -1,68 +1,27 @@
 use crossterm::{
-    event::{
-        self,
-        Event,
-        KeyCode
-    },
+    event::{ self, Event, KeyCode },
     execute,
-    terminal::{
-        disable_raw_mode,
-        enable_raw_mode,
-        EnterAlternateScreen,
-        LeaveAlternateScreen
-    },
+    terminal::{ disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen },
     cursor,
-    style::{
-        PrintStyledContent,
-        Stylize
-    }
+    style::{ PrintStyledContent, Stylize }
 };
-
-use std::{
-    error::Error,
-    io,
-    time::Duration,
-    vec::Vec
-};
-
+use std::{ error::Error, io, time::Duration, vec::Vec };
 use tui::{
-    backend::{
-        Backend,
-        CrosstermBackend
-    },
-    layout::{
-        Alignment,
-        Constraint,
-        Direction,
-        Layout
-    },
-    widgets::{
-        Block,
-        Borders,
-        BarChart,
-        BorderType,
-        Paragraph
-    },
-    style::{
-        Color,
-        Style,
-        Modifier
-    },
+    backend::{ Backend, CrosstermBackend },
+    layout::{ Alignment, Constraint, Direction, Layout },
+    widgets::{ Block, Borders, BarChart, BorderType, Paragraph },
+    style::{ Color, Style, Modifier },
     text::Span,
     Frame,
     Terminal
 };
-
 use rand::Rng;
-use std::time::{
-    Duration as TimeDuration,
-    Instant
-};
+use std::time::{ Duration as TimeDuration, Instant };
 
-const MAX_COLUMN_NUM: usize = 155;
-const MAX_ROW_NUM: usize    = 8;
-const POPULATION_DIAGRAM_MAX_COLUMN_NUM: usize     = 22;
-const FOX_AND_RABBIT_DIAGRAM_MAX_COLUMN_NUM: usize = 11;
+const SIMULATION_SPACE_MAX_COLUMN_NUM: usize = 155;
+const SIMULATION_SPACE_MAX_ROW_NUM: usize    = 8;
+const POPULATION_CHART_MAX_COLUMN_NUM: usize     = 22;
+const FOX_AND_RABBIT_CHART_MAX_COLUMN_NUM: usize = 11;
 
 fn main() -> Result<(), Box<dyn Error>> {
     let fox_birth_probability: f64        = read_data("🦊 szuletesenek valoszinusege (0.0..1.0):", "Hiba tortent a beolvasas soran!");
@@ -76,14 +35,14 @@ fn main() -> Result<(), Box<dyn Error>> {
     let backend      = CrosstermBackend::new(stdout);
     let mut terminal = Terminal::new(backend)?;
     
-    let run_app_result = run_app(&mut terminal, fox_birth_probability, fox_mortality_probability, rabbit_mortality_probability);
+    let population_app_result = run_population_app(&mut terminal, fox_birth_probability, fox_mortality_probability, rabbit_mortality_probability);
 
     disable_raw_mode()?;
     execute!(terminal.backend_mut(), LeaveAlternateScreen)?;
     terminal.show_cursor()?;
 
-    if let Err(error_message) = run_app_result {
-        println!("Hiba: {:?}", error_message)
+    if let Err(error_message) = population_app_result {
+        eprintln!("Hiba tortent az alkalmazas futtatasa soran: {}", error_message)
     } else {
         println!("\nSzimulacio vege...");
     }
@@ -91,15 +50,15 @@ fn main() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn run_app<B: Backend>(terminal: &mut Terminal<B>, fox_birth_probability: f64, fox_mortality_probability: f64, rabbit_mortality_probability: f64) -> io::Result<()> {
-    let mut population: Vec<Vec<&str>> = vec![vec![" ";MAX_COLUMN_NUM];MAX_ROW_NUM];    
+fn run_population_app<B: Backend>(terminal: &mut Terminal<B>, fox_birth_probability: f64, fox_mortality_probability: f64, rabbit_mortality_probability: f64) -> io::Result<()> {
+    let mut population: Vec<Vec<&str>> = vec![vec![" ";SIMULATION_SPACE_MAX_COLUMN_NUM];SIMULATION_SPACE_MAX_ROW_NUM];    
     generate_population(&mut population, fox_birth_probability);
 
     let mut population_data: Vec<(&str, u64)>        = Vec::new();
     let mut fox_population_data: Vec<(&str, u64)>    = Vec::new();
     let mut rabbit_population_data: Vec<(&str, u64)> = Vec::new();
     
-    let mut timer: Instant     = Instant::now();
+    let mut timer: Instant = Instant::now();
 
     population_data.push(("", get_symbol_count(&population, "R") + get_symbol_count(&population, "N")));
     fox_population_data.push(("", get_symbol_count(&population, "R")));
@@ -116,11 +75,11 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, fox_birth_probability: f64, f
 
         terminal.draw(|frame| ui(frame, &population, &population_data, &fox_population_data, &rabbit_population_data))?;
         
-        if population_data.len() >= POPULATION_DIAGRAM_MAX_COLUMN_NUM {
+        if population_data.len() >= POPULATION_CHART_MAX_COLUMN_NUM {
             population_data.clear();
         }
 
-        if fox_population_data.len() >= FOX_AND_RABBIT_DIAGRAM_MAX_COLUMN_NUM {
+        if fox_population_data.len() >= FOX_AND_RABBIT_CHART_MAX_COLUMN_NUM {
             fox_population_data.clear();
             rabbit_population_data.clear();
         }
@@ -130,7 +89,7 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, fox_birth_probability: f64, f
 
         if crossterm::event::poll(Duration::from_millis(100))? {
             if let Event::Key(key) = event::read()? {
-                if key.code == KeyCode::Char('q') || key.code == KeyCode::Char('Q') {
+                if key.code == KeyCode::Esc {
                     return Ok(());
                 }
                 if key.code == KeyCode::Char('s') || key.code == KeyCode::Char('S') {
@@ -192,7 +151,7 @@ fn fox_eating(population: &mut Vec<Vec<&str>>) {
                 population[y_position][x_position]     = " ";
                 population[y_position + 1][x_position] = "R";    
             }
-        } else if y_position < 1 && x_position < MAX_COLUMN_NUM - 1 && x_position >= 1 {
+        } else if y_position < 1 && x_position < SIMULATION_SPACE_MAX_COLUMN_NUM - 1 && x_position >= 1 {
             if population[y_position][x_position + 1] == "N" {
                 population[y_position][x_position]     = " ";
                 population[y_position][x_position + 1] = "R";
@@ -203,7 +162,7 @@ fn fox_eating(population: &mut Vec<Vec<&str>>) {
                 population[y_position][x_position]     = " ";
                 population[y_position + 1][x_position] = "R";    
             }
-        } else if x_position < 1 && y_position >= 1 && y_position < MAX_ROW_NUM - 1 {
+        } else if x_position < 1 && y_position >= 1 && y_position < SIMULATION_SPACE_MAX_ROW_NUM - 1 {
             if population[y_position - 1][x_position] == "N" {
                 population[y_position][x_position]     = " ";
                 population[y_position - 1][x_position] = "R";  
@@ -214,7 +173,7 @@ fn fox_eating(population: &mut Vec<Vec<&str>>) {
                 population[y_position][x_position]     = " ";
                 population[y_position][x_position + 1] = "R";  
             }
-        } else if y_position + 1 >= MAX_ROW_NUM && x_position + 1 >= MAX_COLUMN_NUM {
+        } else if y_position + 1 >= SIMULATION_SPACE_MAX_ROW_NUM && x_position + 1 >= SIMULATION_SPACE_MAX_COLUMN_NUM {
             if population[y_position][x_position - 1] == "N" {
                 population[y_position][x_position]     = " ";
                 population[y_position][x_position - 1] = "R";
@@ -223,7 +182,7 @@ fn fox_eating(population: &mut Vec<Vec<&str>>) {
                 population[y_position][x_position]     = " ";
                 population[y_position - 1][x_position] = "R";
             }
-        } else if y_position == MAX_ROW_NUM - 1 && x_position >= 1 && x_position < MAX_COLUMN_NUM - 1 {
+        } else if y_position == SIMULATION_SPACE_MAX_ROW_NUM - 1 && x_position >= 1 && x_position < SIMULATION_SPACE_MAX_COLUMN_NUM - 1 {
             if population[y_position][x_position - 1] == "N" {
                 population[y_position][x_position]     = " ";
                 population[y_position][x_position - 1] = "R";
@@ -234,7 +193,7 @@ fn fox_eating(population: &mut Vec<Vec<&str>>) {
                 population[y_position][x_position]     = " ";
                 population[y_position - 1][x_position] = "R";
             }
-        } else if x_position == MAX_COLUMN_NUM - 1 && y_position >= 1 && y_position < MAX_ROW_NUM - 1 {
+        } else if x_position == SIMULATION_SPACE_MAX_COLUMN_NUM - 1 && y_position >= 1 && y_position < SIMULATION_SPACE_MAX_ROW_NUM - 1 {
             if population[y_position - 1][x_position] == "N" {
                 population[y_position][x_position]     = " ";
                 population[y_position - 1][x_position] = "R";
@@ -245,7 +204,7 @@ fn fox_eating(population: &mut Vec<Vec<&str>>) {
                 population[y_position][x_position]     = " ";
                 population[y_position + 1][x_position] = "R";
             }
-        } else if y_position < 1 && x_position + 1 >= MAX_COLUMN_NUM {
+        } else if y_position < 1 && x_position + 1 >= SIMULATION_SPACE_MAX_COLUMN_NUM {
             if population[y_position][x_position - 1] == "N" {
                 population[y_position][x_position]     = " ";
                 population[y_position][x_position - 1] = "R";
@@ -254,7 +213,7 @@ fn fox_eating(population: &mut Vec<Vec<&str>>) {
                 population[y_position][x_position]     = " ";
                 population[y_position + 1][x_position] = "R";
             }
-        } else if x_position < 1 && y_position + 1 >= MAX_ROW_NUM {
+        } else if x_position < 1 && y_position + 1 >= SIMULATION_SPACE_MAX_ROW_NUM {
             if population[y_position][x_position + 1] == "N" {
                 population[y_position][x_position]     = " ";
                 population[y_position][x_position + 1] = "R";
@@ -301,8 +260,8 @@ fn animal_mortality(population: &mut Vec<Vec<&str>>, fox_mortality_probability: 
 fn get_symbol_count(population: &Vec<Vec<&str>>, symbol: &str) -> u64 {
     let mut symbol_count: u64 = 0;
 
-    for row in 0..MAX_ROW_NUM {
-        for cell in 0..MAX_COLUMN_NUM {
+    for row in 0..SIMULATION_SPACE_MAX_ROW_NUM {
+        for cell in 0..SIMULATION_SPACE_MAX_COLUMN_NUM {
             let symbol_value = population[row][cell];
             if symbol_value == symbol {
                 symbol_count += 1;
@@ -336,8 +295,8 @@ fn print_symbol(simulation_space_cell: usize, simulation_space_row: usize, value
 
 fn show_population(population: &Vec<Vec<&str>>) {
     let mut value: &str;
-    for simulation_space_row in 0..MAX_ROW_NUM {
-        for simulation_space_cell in 0..MAX_COLUMN_NUM {
+    for simulation_space_row in 0..SIMULATION_SPACE_MAX_ROW_NUM {
+        for simulation_space_cell in 0..SIMULATION_SPACE_MAX_COLUMN_NUM {
             value = population[simulation_space_row][simulation_space_cell];
             print_symbol(simulation_space_cell, simulation_space_row, value);     
         }
@@ -346,8 +305,8 @@ fn show_population(population: &Vec<Vec<&str>>) {
 
 fn clear_simulation_space() {
     let clear_symbol = " ";
-    for simulation_space_row in 0..MAX_ROW_NUM {
-        for simulation_space_cell in 0..MAX_COLUMN_NUM {
+    for simulation_space_row in 0..SIMULATION_SPACE_MAX_ROW_NUM {
+        for simulation_space_cell in 0..SIMULATION_SPACE_MAX_COLUMN_NUM {
             print_symbol(simulation_space_cell, simulation_space_row, clear_symbol);     
         }
     }    
@@ -394,8 +353,8 @@ fn ui<B: Backend>(frame: &mut Frame<B>, population: &Vec<Vec<&str>>, population_
     let fox_chart: BarChart = BarChart::default()
                                        .block(Block::default()
                                                     .title(Span::styled(r#"🦊 populacio ("R") szamanak valtozasa"#, Style::default()
-                                                                                                                .fg(Color::Cyan)
-                                                                                                                .add_modifier(Modifier::BOLD)))
+                                                                                                                          .fg(Color::Cyan)
+                                                                                                                          .add_modifier(Modifier::BOLD)))
                                                     .borders(Borders::ALL)
                                                     .border_type(BorderType::Rounded)
                                                     .border_style(Style::default()
@@ -413,8 +372,8 @@ fn ui<B: Backend>(frame: &mut Frame<B>, population: &Vec<Vec<&str>>, population_
     let rabbit_chart: BarChart = BarChart::default()
                                           .block(Block::default()
                                                        .title(Span::styled(r#"🐰 populacio ("N") szamanak valtozasa"#, Style::default()
-                                                                                                                   .fg(Color::Cyan)
-                                                                                                                   .add_modifier(Modifier::BOLD)))
+                                                                                                                             .fg(Color::Cyan)
+                                                                                                                             .add_modifier(Modifier::BOLD)))
                                                        .borders(Borders::ALL)
                                                        .border_type(BorderType::Rounded)
                                                        .border_style(Style::default()
@@ -433,8 +392,8 @@ fn ui<B: Backend>(frame: &mut Frame<B>, population: &Vec<Vec<&str>>, population_
     let population_chart: BarChart = BarChart::default()
                                               .block(Block::default()
                                                            .title(Span::styled("🦊 + 🐰 populacio szamanak valtozasa", Style::default()
-                                                                                                                    .fg(Color::Cyan)
-                                                                                                                    .add_modifier(Modifier::BOLD)))
+                                                                                                                             .fg(Color::Cyan)
+                                                                                                                             .add_modifier(Modifier::BOLD)))
                                                            .borders(Borders::ALL)
                                                            .border_type(BorderType::Rounded)
                                                            .border_style(Style::default()
@@ -469,7 +428,7 @@ fn ui<B: Backend>(frame: &mut Frame<B>, population: &Vec<Vec<&str>>, population_
                            .border_type(BorderType::Rounded)
                            .borders(Borders::ALL);
 
-    let info_paragraph = Paragraph::new(Span::from(r#"Kilepes: "q"/"Q" | Stop es Start: "s"/"S""#))
+    let info_paragraph = Paragraph::new(Span::from("Kilepes: <ESC> | Szimulacio megallitasa / inditasa: <S>"))
                                    .style(Style::default()
                                                 .fg(Color::White))
                                    .block(info_block)

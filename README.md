@@ -13,6 +13,8 @@ Az alabb felsorolt projektek celja, hogy a [Rust](https://www.rust-lang.org) pro
 
 ### 2.1 File Browser 📂
 
+Forraskod megtekintheto [ide kattintva](file_browser/src).
+
 ![File Browser](images/file_browser.png)
 ![File Browser - Permission Denied](images/file_browser_error.png)
 
@@ -79,7 +81,9 @@ Tovabbi celkituzeseket a projekttel kapcsolatban lsd. a "Task lista" szekcioban.
 
 ### 2.2 Populaciobiologiai Szimulacios Modell 🦊 🐰
 
-![File Browser](images/populacio.png)
+Forraskod megtekintheto [ide kattintva](population/src).
+
+![File Browser](images/population.png)
 
 #### 2.2.1 Altalanosan a mini projektrol
 
@@ -109,14 +113,14 @@ fn main() -> Result<(), Box<dyn Error>> {
     let backend      = CrosstermBackend::new(stdout);
     let mut terminal = Terminal::new(backend)?;
     
-    let run_app_result = run_app(&mut terminal, fox_birth_probability, fox_mortality_probability, rabbit_mortality_probability);
+    let population_app_result = run_population_app(&mut terminal, fox_birth_probability, fox_mortality_probability, rabbit_mortality_probability);
 
     disable_raw_mode()?;
     execute!(terminal.backend_mut(), LeaveAlternateScreen)?;
     terminal.show_cursor()?;
 
-    if let Err(error_message) = run_app_result {
-        println!("Hiba: {:?}", error_message)
+    if let Err(error_message) = population_app_result {
+        eprintln!("Hiba tortent az alkalmazas futtatasa soran: {}", error_message)
     } else {
         println!("\nSzimulacio vege...");
     }
@@ -143,8 +147,10 @@ Tovabbi celkituzeseket a projekttel kapcsolatban lsd. a "Task lista" szekcioban!
 
 ### 2.3 Rendezesi algoritmusok 📊
 
-![File Browser](images/rendalg_lista.png)
-![File Browser](images/rendalg.png)
+Forraskod megtekintheto [ide kattintva](sort/src).
+
+![File Browser](images/sort.png)
+![File Browser](images/sort_chart.png)
 
 #### 2.3.1 Altalanosan a mini projektrol
 
@@ -170,13 +176,13 @@ fn main() -> Result<(), Box<dyn Error>> {
     let mut terminal = Terminal::new(backend)?;
 
     let mut numbers: Vec<u64> = Vec::new();
-    let run_app_result = run_app(&mut terminal, &mut numbers);
+    let sort_app_result = run_sort_app(&mut terminal, &mut numbers);
 
     disable_raw_mode()?;
     execute!(terminal.backend_mut(), LeaveAlternateScreen)?;
     terminal.show_cursor()?;
 
-    if let Err(error_message) = run_app_result {
+    if let Err(error_message) = sort_app_result {
         println!("Hiba: {}", error_message)
     }
 
@@ -195,8 +201,3 @@ Tovabbi celkituzeseket a projekttel kapcsolatban lsd. a "Task lista" szekcioban!
 - [x] Vizualis megjelenites.
 - [ ] OOP megvalositas es refaktoralas
 - [ ] Tesztek bevezetese
-
-
-
-> Felhasznalt irodalom:
-> - Szlávi Péter - Zsakó László: Módszeres programozás: Programozási tételek, ELTE Informatikai Kar.

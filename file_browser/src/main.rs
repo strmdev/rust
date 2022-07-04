@@ -147,7 +147,7 @@ fn next_dir_list<B>(dir_list: &mut DirList, terminal: &mut Terminal<B>) where B:
                             file_browser_screen(frame, dir_list);
                             show_popup(frame, "Hibauzenet", "Ismeretlen hiba tortent az alkalmazas futasa soran!");
                         }).ok();
-                        thread::sleep(time::Duration::from_millis(5000));
+                        thread::sleep(time::Duration::from_millis(3000));
                     }
                 }
             }
@@ -246,11 +246,11 @@ fn file_browser_screen<B>(frame: &mut Frame<B>, dir_list: &mut DirList) where B:
                                                    .style(Style::default()
                                                                 .fg(Color::LightBlue)
                                                                 .bg(Color::DarkGray)))
-                                                   .highlight_style(Style::default()
-                                                                          .bg(Color::LightYellow)
-                                                                          .fg(Color::Black)
-                                                                          .add_modifier(Modifier::BOLD))
-                                                   .highlight_symbol(">> ");
+                                      .highlight_style(Style::default()
+                                                             .bg(Color::LightYellow)
+                                                             .fg(Color::Black)
+                                                             .add_modifier(Modifier::BOLD))
+                                      .highlight_symbol(">> ");
     frame.render_stateful_widget(left_file_window_block, file_browser_windows_layout[0], &mut dir_list.items.state);
 
     let right_file_window_block = Block::default()
@@ -266,6 +266,7 @@ fn file_browser_screen<B>(frame: &mut Frame<B>, dir_list: &mut DirList) where B:
     
     let mut file_info: Vec<Spans> = Vec::new();
     init_file_info(&mut file_info, dir_list); 
+    
     let file_info_paragraph = Paragraph::new(file_info)
                                         .block(right_file_window_block)
                                         .style(Style::default().fg(Color::LightYellow).bg(Color::DarkGray))
