@@ -4,7 +4,7 @@
 
 Az alabb felsorolt projektek celja, hogy a [Rust](https://www.rust-lang.org) programozasi nyelv elsajatitasara sarkalljanak. A tanulas es szorakozas mellett inspiral a nyelv adta "szemleletmod" megertese, elsajatitasa es magameva tetele.
 
-> Alabb nehany forras, akik tartalmai motivaltak abban, hogy elinduljak. Halas koszonet nekik, es mindenki masnak, akik ertelmes tartalmakat gyartanak es megosztjak a tudasukat 🎉:
+> Alabb nehany forras, akik tartalmai motivaltak abban, hogy elinduljak. Halas koszonet nekik, es mindenki masnak, akik ertelmes tartalmakat gyartanak es megosztjak a tudasukat masokkal 🎉:
 > - [Let's Get Rusty](https://www.youtube.com/c/LetsGetRusty)
 > - [Ryan Levick](https://www.youtube.com/c/RyanLevicksVideos/featured)
 > - [Jon Gjengset](https://www.youtube.com/c/JonGjengset/featured)
@@ -21,9 +21,9 @@ Forraskod megtekintheto [ide kattintva](file_browser/src).
 #### 2.1.1 Altalanosan a mini projektrol
 
 Egy olyan TUI (Terminal User Interface) alkalmazas letrehozasa volt a cel, amely kezdetben:
-- kepes a konyvtarstrukuran beluli navigaciora
+- kepes a konyvtarstrukturan beluli navigaciora
 - az egyes fajlok es mappak alapadatainak (pl.: nev, kiterjesztes, meret stb.) megjelenitesere
-- a kivalasztott file vagy mappa helyere torteno "ugrasra"
+- a kivalasztott file vagy mappa helyere torteno "ugrasra" (finder ablak)
 - alapveto hibalehetosegek kezelesere
 
 A megvalositas legfelso szintjen - kodreszlet:
@@ -64,7 +64,7 @@ Tovabbi celkituzeseket a projekttel kapcsolatban lsd. a "Task lista" szekcioban.
   - [x] Lepkedes az adott strukturan belul
   - [x] Belepes a mappaba
   - [x] Visszalepes a mappan belul
-  - [x] Ugras az adott mappa vagy fajl helyere
+  - [x] Ugras az adott mappa vagy fajl helyere (finder ablak)
 - [x] Altalanos fajl infok megjelenitese:
   - [x] Kiterjesztes
   - [x] Meret
@@ -77,7 +77,7 @@ Tovabbi celkituzeseket a projekttel kapcsolatban lsd. a "Task lista" szekcioban.
 - [ ] Kereses a mappakban
 - [ ] Szoveg fajlok tartalmi elonezetenek mutatasa
 - [ ] OOP megvalositas es refaktoralas
-- [ ] Tesztek bevezetese.
+- [ ] Tesztek bevezetese
 
 ### 2.2 Populaciobiologiai Szimulacios Modell 🦊 🐰
 
@@ -143,7 +143,7 @@ Tovabbi celkituzeseket a projekttel kapcsolatban lsd. a "Task lista" szekcioban!
 - [ ] A nyul (N) megeszi a fuvet (F)
 - [ ] Jarvany megjelenesenek bevezetese
 - [ ] OOP megvalositas es refaktoralas
-- [ ] Tesztek bevezetese.
+- [ ] Tesztek bevezetese
 
 ### 2.3 Rendezesi algoritmusok 📊
 
@@ -198,6 +198,6 @@ Tovabbi celkituzeseket a projekttel kapcsolatban lsd. a "Task lista" szekcioban!
 
 - [x] Rendezesi lista megvalositasa
 - [x] Rendezesi algoritmusok bevezetese
-- [x] Vizualis megjelenites.
+- [x] Vizualis megjelenites
 - [ ] OOP megvalositas es refaktoralas
 - [ ] Tesztek bevezetese
